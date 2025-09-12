@@ -1,0 +1,2 @@
+# ISOM5160-project-AI-Driven-Personalized-Product-Improvement-Recommendation-System-for-Amazon-Sellers
+This is a course project for HKUST ISOM5160. It leverages Python to analyze over 20,000 real-world entries from an Amazon review dataset, with a built-in UI to facilitate intuitive queries. The project also delivers data-driven recommendations for product enhancements, bridging analytical insights with practical business improvements.
