@@ -15,6 +15,7 @@ import regex
 import requests
 from bs4 import BeautifulSoup, NavigableString
 from tqdm import tqdm
+from glob import glob
 
 _amazon_headers_ = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
@@ -73,7 +74,8 @@ def parse_amazon_product_info(soup: BeautifulSoup) -> dict:
             score = rating.find('span', class_='a-size-medium a-color-base').text
             dist = {
                 ''.join(filter(lambda x: isinstance(x, NavigableString),
-                               e.find('div', class_='a-section a-spacing-none a-text-left aok-nowrap').contents)).strip():
+                               e.find('div',
+                                      class_='a-section a-spacing-none a-text-left aok-nowrap').contents)).strip():
                     ''.join(filter(lambda x: isinstance(x, NavigableString),
                                    e.find('div',
                                           class_='a-section a-spacing-none a-text-right aok-nowrap').contents)).strip()
@@ -145,7 +147,7 @@ def parallel_scrape_amazon_product_info(product_id_list: list, replace: bool = F
     os.makedirs(new_data_path, exist_ok=True)
     with mp.Pool(cpu_count) as pool:
         n_success = sum([e for e in tqdm(pool.imap_unordered(scrape_data_to_json, product_id_list),
-                                    total=len(product_id_list), desc="Scraping amazon products")])
+                                         total=len(product_id_list), desc="Scraping amazon products")])
         print(f"Successfully scraped {n_success}/{len(product_id_list)} products")
 
 
@@ -165,6 +167,21 @@ def scrape_main():
     print("Start scraping data...")
     parallel_scrape_amazon_product_info(product_id_list, args.replace)
     print("Scraping finished.")
+
+
+def load_json(filename):
+    product_id = filename.split("/")[-1].split(".")[0]
+    with open(filename, 'r') as f:
+        item = json.load(f)
+        item["product_id"] = product_id
+    return item
+
+
+def load_all_data_as_dataframe():
+    df = pd.DataFrame(filter(lambda x: len(x) > 1, [load_json(each) for each in tqdm(glob("new_data/*.json"))]))[[
+        'product_id', 'product_title', 'byline_info', 'product_description', 'category',
+        'alt_images', 'product_detail', 'important_information', 'rating', 'top_comments']]
+    return df
 
 
 if __name__ == "__main__":
