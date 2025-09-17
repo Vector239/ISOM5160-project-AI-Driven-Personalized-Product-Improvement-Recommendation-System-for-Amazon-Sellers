@@ -17,7 +17,7 @@ This is a course project for HKUST ISOM5160. It leverages Python to analyze over
 | LI, Heyi      |          | 评论、评分异常值分析 （基于评论情感分析）、 PPT 统筹                                  |
 | LIAO, Jingyu  | 21262106 | 差评原因分析   （基于评论关键词）                                             |
 | LIN, Chuwei   |          | 评分时间趋势分析                                                       |
-| YE, Chenwei   |          | 用户评论权重分析                                                       |
+| YE, Chenwei   | 21199517 | 用户评论权重分析                                                       |
 | ZHANG, Ziyang | 21266920 | 商品简介-评分的相关性分析 1. Data scraping: additional amazon product info |
 
 ## Timeline
