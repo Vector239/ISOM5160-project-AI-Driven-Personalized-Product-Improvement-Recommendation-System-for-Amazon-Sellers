@@ -17,7 +17,7 @@ This is a course project for HKUST ISOM5160. It leverages Python to analyze over
 | LI, Heyi      |          |                                                  |
 | LIAO, Jingyu  | 21262106 |                                                  |
 | LIN, Chuwei   |          |                                                  |
-| YE, Chenwei   |          |                                                  |
+| YE, Chenwei   | 21199517 |                                                  |
 | ZHANG, Ziyang | 21266920 | 1. Data scraping: additional amazon product info |
 
 
