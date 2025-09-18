@@ -9,13 +9,14 @@ import argparse
 import json
 import multiprocessing as mp
 import os
+from glob import glob
 
+import numpy as np
 import pandas as pd
 import regex
 import requests
 from bs4 import BeautifulSoup, NavigableString
 from tqdm import tqdm
-from glob import glob
 
 _amazon_headers_ = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
@@ -169,6 +170,33 @@ def scrape_main():
     print("Scraping finished.")
 
 
+def esteban_ray_index(p, alpha=1.3):
+    if p is None:
+        return np.nan
+    scores, p = np.arange(1, len(p) + 1), np.array(p) / sum(p)
+    er = 0.0
+    for i in range(len(p)):
+        for j in range(len(p)):
+            er += (p[i] ** (1 + alpha)) * p[j] * abs(scores[i] - scores[j])
+    return er
+
+
+def add_custom_columns(df_amazon_product_info: pd.DataFrame):
+    df_amazon_product_info['CountAltImages'] = df_amazon_product_info.alt_images.apply(lambda x: len(x))
+    df_amazon_product_info['Score'] = df_amazon_product_info.rating.apply(
+        lambda x: float(x['score'].split(' ')[0]) if x is not None else np.nan)
+    df_amazon_product_info['ScoreDistribution'] = df_amazon_product_info.rating.apply(lambda x: np.array(
+        [float(x['dist'][k][:-1]) for k in
+         ['1 star', '2 star', '3 star', '4 star', '5 star']] if x is not None else None))
+    df_amazon_product_info['ScorePolarizationIndex'] = df_amazon_product_info.ScoreDistribution.apply(esteban_ray_index)
+    df_amazon_product_info['NumRatings'] = df_amazon_product_info.product_detail.apply(
+        lambda x: int(x.get('Customer Reviews').split(' ')[-2].replace(',', ''))
+        if x.get('Customer Reviews') is not None else -1)
+    df_amazon_product_info['IsFood'] = df_amazon_product_info.category.apply(
+        lambda x: sum(['food' in e.lower() for e in x])) > 0
+    return df_amazon_product_info.drop(columns=['rating'])
+
+
 def load_json(filename):
     product_id = filename.split("/")[-1].split(".")[0]
     with open(filename, 'r') as f:
@@ -178,9 +206,24 @@ def load_json(filename):
 
 
 def load_all_data_as_dataframe():
-    df = pd.DataFrame(filter(lambda x: len(x) > 1, [load_json(each) for each in tqdm(glob("new_data/*.json"))]))[[
+    df = pd.DataFrame(filter(
+        lambda x: len(x) > 1,
+        [load_json(each) for each in tqdm(glob("new_data/*.json"), desc="Loading product info")]))[[
         'product_id', 'product_title', 'byline_info', 'product_description', 'category',
         'alt_images', 'product_detail', 'important_information', 'rating', 'top_comments']]
+    return add_custom_columns(df)
+
+
+def extract_comments_from_product_info(df_amazon_product_info: pd.DataFrame):
+    df = pd.DataFrame([dict(
+        ProductId=row.product_id,
+        HelpfulnessNumerator=int(cmt['helpfulness'].replace(',', '')) if cmt['helpfulness'] != 'One' else 1,
+        Score=int(float(cmt['score'].split(' ')[0])),
+        Time=cmt['date'],
+        Summary=cmt['title'],
+        Text=cmt['text']
+    ) for _, row in df_amazon_product_info.iterrows() for cmt in row.top_comments])
+    df['Time'] = pd.to_datetime(df.Time)
     return df
 
 
