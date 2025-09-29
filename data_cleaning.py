@@ -92,11 +92,15 @@ def add_sentiment_score(df):
 
     # 如果GPU可用则使用GPU
     if torch.cuda.is_available():
+        device = torch.device("cuda")
         print("GPU 可用，正在使用 GPU 进行计算...")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+        print("MPS 可用，正在使用 Metal Performance Shaders 进行计算...")
     else:
+        device = torch.device("cpu")
         print("GPU 不可用，正在使用 CPU 进行计算...")
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     # 存储情感分数的列表
     sentiment_scores = []
