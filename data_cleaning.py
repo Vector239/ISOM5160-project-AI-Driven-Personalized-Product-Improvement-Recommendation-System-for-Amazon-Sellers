@@ -2,12 +2,13 @@ import pandas as pd
 import re
 import nltk
 import torch
+import os
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-nltk.download('punkt_tab')  # 显示下载过程，确保资源成功获取
-nltk.download('stopwords')  # 下载停用词资源
+nltk.download('punkt', quiet=True)  # 显示下载过程，确保资源成功获取
+nltk.download('stopwords', quiet=True)  # 下载停用词资源
 
 
 def data_cleaning(file_path):
@@ -16,7 +17,6 @@ def data_cleaning(file_path):
     # 查看数据的基本信息
     print('数据基本信息：')
     print(df.info())
-
     # 删除 Text、Score 和 ProductId 列中存在缺失值的行
     original_rows = df.shape[0]
     df = df.dropna(subset=['Text', 'Score', 'ProductId'])
@@ -63,17 +63,39 @@ def data_cleaning(file_path):
         if (pd.notna(x) and x != '') else []  # 空值/空文本返回空列表
     )
     # 5.3 删除原始文本列和清洗后的文本列
-    df = df.drop(columns=['Text', 'Text_cleaned', 'tokens'])
+    df = df.drop(columns=['Text', 'tokens'])
     return df
 
 
 def add_sentiment_score(df):
     """情感分析函数：仅添加情感分数（基于预训练模型）"""
     # 加载预训练模型和分词器（轻量级情感分析模型）
-    print("正在加载预训练模型...")
     model_name = "distilbert-base-uncased-finetuned-sst-2-english"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    model_cache_dir = "./sentiment_model_cache"  # 本地缓存目录
+    # 如果本地有缓存模型则加载本地模型
+    if os.path.exists(model_cache_dir) and len(os.listdir(model_cache_dir)) > 0:
+        print(f"发现本地缓存模型，从 {model_cache_dir} 加载...")
+        # 下载分词器和模型
+        tokenizer = AutoTokenizer.from_pretrained(model_cache_dir)
+        model = AutoModelForSequenceClassification.from_pretrained(
+            model_cache_dir)
+    else:
+        print("本地无缓存模型，正在下载并缓存...")
+        # 下载模型和分词器
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        # 创建缓存目录并保存模型
+        os.makedirs(model_cache_dir, exist_ok=True)
+        tokenizer.save_pretrained(model_cache_dir)
+        model.save_pretrained(model_cache_dir)
+        print(f"模型已缓存至 {model_cache_dir}")
+
+    # 如果GPU可用则使用GPU
+    if torch.cuda.is_available():
+        print("GPU 可用，正在使用 GPU 进行计算...")
+    else:
+        print("GPU 不可用，正在使用 CPU 进行计算...")
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     # 存储情感分数的列表
@@ -81,7 +103,8 @@ def add_sentiment_score(df):
     total = len(df)
     # 遍历文本列计算情感分数（仅保留正面情感概率作为分数）
     for idx, text in enumerate(df['Text_cleaned']):
-        print(f"Processing row {idx + 1}/{total}")
+        if idx %1000 == 0 or idx == total - 1:
+            print(f"Processing row {idx + 1}/{total}...  ")
         inputs = tokenizer(text, return_tensors="pt",
                            truncation=True, max_length=512)
         inputs = {k: v.to(device) for k, v in inputs.items()}
@@ -99,6 +122,8 @@ def add_sentiment_score(df):
 def main():
     print("hello")
     cleaned_data = data_cleaning('datasets/amazon_food_reviews.csv')
+    cleaned_data.to_csv(
+        'datasets/amazon_food_reviews_cleaned.csv', index=False)
 
     print("Adding sentiment score")
     # 2. 添加情感分数列
