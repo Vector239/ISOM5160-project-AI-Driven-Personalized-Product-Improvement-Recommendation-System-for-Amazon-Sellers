@@ -29,7 +29,7 @@ _amazon_headers_ = {
     "viewport-width": "1080",
 }
 
-new_data_path = "new_data"
+new_data_path = "datasets/new_data"
 
 
 def handle_none_value(value, handle_none, handle_not_none):
@@ -208,7 +208,7 @@ def load_json(filename):
 def load_all_data_as_dataframe():
     df = pd.DataFrame(filter(
         lambda x: len(x) > 1,
-        [load_json(each) for each in tqdm(glob("new_data/*.json"), desc="Loading product info")]))[[
+        [load_json(each) for each in tqdm(glob(f"{new_data_path}/*.json"), desc="Loading product info")]))[[
         'product_id', 'product_title', 'byline_info', 'product_description', 'category',
         'alt_images', 'product_detail', 'important_information', 'rating', 'top_comments']]
     return add_custom_columns(df)

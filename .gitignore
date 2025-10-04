@@ -1,0 +1,9 @@
+.gitignore
+.idea
+!.gitignore
+new_data
+test.ipynb
+*.pyc
+sentiment_model_cache
+__MACOSX
+

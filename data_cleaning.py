@@ -1,8 +1,16 @@
+# File: data_cleaning.py
+# Author: CAO, Xi
+# Student ID: 21271664
+# Email: @connect.ust.hk
+# Date:
+# Description: The data cleaning code
+
 import pandas as pd
 import re
 import nltk
 import torch
 import os
+from tqdm import tqdm
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -67,7 +75,7 @@ def data_cleaning(file_path):
     return df
 
 
-def add_sentiment_score(df):
+def add_sentiment_score(df, text_col_name):
     """情感分析函数：仅添加情感分数（基于预训练模型）"""
     # 加载预训练模型和分词器（轻量级情感分析模型）
     model_name = "distilbert-base-uncased-finetuned-sst-2-english"
@@ -93,22 +101,22 @@ def add_sentiment_score(df):
     # 如果GPU可用则使用GPU
     if torch.cuda.is_available():
         device = torch.device("cuda")
-        print("GPU 可用，正在使用 GPU 进行计算...")
+        # print("GPU 可用，正在使用 GPU 进行计算...")
     elif torch.backends.mps.is_available():
         device = torch.device("mps")
-        print("MPS 可用，正在使用 Metal Performance Shaders 进行计算...")
+        # print("MPS 可用，正在使用 Metal Performance Shaders 进行计算...")
     else:
         device = torch.device("cpu")
-        print("GPU 不可用，正在使用 CPU 进行计算...")
+        # print("GPU 不可用，正在使用 CPU 进行计算...")
 
     model.to(device)
     # 存储情感分数的列表
     sentiment_scores = []
     total = len(df)
     # 遍历文本列计算情感分数（仅保留正面情感概率作为分数）
-    for idx, text in enumerate(df['Text_cleaned']):
-        if idx %1000 == 0 or idx == total - 1:
-            print(f"Processing row {idx + 1}/{total}...  ")
+    for idx, text in enumerate(tqdm(df[text_col_name], desc=f"Adding sentiment score (using {device.type})")):
+        # if idx %1000 == 0 or idx == total - 1:
+        #     print(f"Processing row {idx + 1}/{total}...  ")
         inputs = tokenizer(text, return_tensors="pt",
                            truncation=True, max_length=512)
         inputs = {k: v.to(device) for k, v in inputs.items()}
@@ -131,7 +139,7 @@ def main():
 
     print("Adding sentiment score")
     # 2. 添加情感分数列
-    result_df = add_sentiment_score(cleaned_data)
+    result_df = add_sentiment_score(cleaned_data, 'Text_cleaned')
     # 按相对路径将结果保存到 /data/ 文件夹下
     result_df.to_csv('datasets/amazon_food_reviews_cleaned.csv', index=False)
 
