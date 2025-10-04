@@ -173,7 +173,7 @@ def get_correlation_with_marketing_sentiment(df_amazon_product_info: pd.DataFram
     fig, axes = plt.subplots(1, len(available_keys), figsize=(len(available_keys) * 4, 2))
     axes = axes if (isinstance(axes, list) or isinstance(axes, np.ndarray)) else [axes]
     for i, key in enumerate(available_keys):
-        axes[i].hist(tmp[key], bins=25, width=(tmp[key].max() - tmp[key].min()) / 35)
+        axes[i].hist(tmp[key], bins=25, color=f'C{i}', width=(tmp[key].max() - tmp[key].min()) / 35)
         axes[i].set_title(key + ' (log)')
         axes[i].set_yscale('log')
 
@@ -195,13 +195,13 @@ def get_correlation_with_reading_ease(df_amazon_product_info: pd.DataFrame):
          for s in ['Score', 'ScorePolarizationIndex']])
 
     fig, axes = plt.subplots(1, 3, figsize=(12, 2))
-    axes[0].hist(tmp.flesch_reading_ease, bins=25,
+    axes[0].hist(tmp.flesch_reading_ease, bins=25, color='C0',
                  width=(tmp.flesch_reading_ease.max() - tmp.flesch_reading_ease.min()) / 35)
     axes[0].set_title("flesch_reading_ease")
-    axes[1].hist(tmp.flesch_kincaid_grade, bins=25,
+    axes[1].hist(tmp.flesch_kincaid_grade, bins=25, color='C1',
                  width=(tmp.flesch_kincaid_grade.max() - tmp.flesch_kincaid_grade.min()) / 35)
     axes[1].set_title("flesch_kincaid_grade")
-    axes[2].hist(tmp.gunning_fog, bins=25, width=(tmp.gunning_fog.max() - tmp.gunning_fog.min()) / 35)
+    axes[2].hist(tmp.gunning_fog, bins=25, color='C2', width=(tmp.gunning_fog.max() - tmp.gunning_fog.min()) / 35)
     axes[2].set_title("gunning_fog")
     fig.suptitle("Distribution of reading ease index", fontsize=12, fontweight='bold')
     fig.tight_layout()
