@@ -7,9 +7,12 @@
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import textstat
 from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 from matplotlib.ticker import PercentFormatter
+from pandas import DataFrame
 from scipy.stats import spearmanr
 
 marketing_words = {"best", "amazing", "perfect", "ultimate", "limited",
@@ -209,7 +212,7 @@ def get_correlation_with_reading_ease(df_amazon_product_info: pd.DataFrame):
     return fig, add_spearmanr_conclusion(result)
 
 
-def get_correlation_with_description_item(df_amazon_product_info: pd.DataFrame) -> pd.DataFrame:
+def get_correlation_with_description_item(df_amazon_product_info: pd.DataFrame) -> tuple[Figure, DataFrame]:
     tmp = df_amazon_product_info[['product_detail', 'important_information', 'Score', 'ScorePolarizationIndex']].copy()
     detail_keys = tmp.product_detail.apply(
         lambda x: [e for e in x.keys() if not e.startswith('#')]).explode().value_counts()
@@ -219,10 +222,29 @@ def get_correlation_with_description_item(df_amazon_product_info: pd.DataFrame) 
     data = []
     for cat, (key, n) in [*zip(['product_detail'] * len(detail_keys), detail_keys.items()),
                           *zip(['important_information'] * len(detail_keys), info_keys.items())]:
+        if key == 'Is Discontinued By Manufacturer':
+            # excluding misleading items
+            continue
         tmp[key] = tmp[cat].apply(lambda x: 1 if x.get(key) else -1)
         for cmp in ['Score', 'ScorePolarizationIndex']:
             corr, p_value = spearmanr(tmp.dropna()[cmp], tmp.dropna()[key])
             data.append({"item": key, "category": cat.split('_')[-1],
                          "num_samples": n, 'compare_with': cmp, "corr": corr, "p_value": p_value})
     result = pd.DataFrame(data).sort_values(['item', 'compare_with', 'corr'])
-    return add_spearmanr_conclusion(result)
+    result = add_spearmanr_conclusion(result)
+
+    ncols = 3
+    fig, axes = plt.subplots(2, ncols, figsize=(12, 6))
+
+    for i, name in enumerate(set(result[result.conclusion != "No significant correlation"].item)):
+        sns.kdeplot(df_amazon_product_info.Score, ax=axes[i // ncols][i % ncols], label='All', fill=True)
+        f = df_amazon_product_info.product_detail.apply(lambda x: name in x)
+        f = f if sum(f) > 0 else df_amazon_product_info.important_information.apply(lambda x: name in x)
+        sns.kdeplot(df_amazon_product_info[f].Score, ax=axes[i // ncols][i % ncols], label=name, fill=True)
+        axes[i // ncols][i % ncols].set_title(name)
+        axes[i // ncols][i % ncols].legend()
+
+    fig.suptitle("Distribution of Score Compare with Description Items", fontsize=12, fontweight='bold')
+    fig.tight_layout()
+
+    return fig, result
