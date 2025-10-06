@@ -7,3 +7,12 @@ test.ipynb
 sentiment_model_cache
 __MACOSX
 
+# ignore Latex files
+slides/*
+!slides/chapters
+!slides/pic
+slides/chapters/*
+!slides/chapters/*.tex
+!slides/*.pdf
+!slides/*.tex
+!slides/*.sty
