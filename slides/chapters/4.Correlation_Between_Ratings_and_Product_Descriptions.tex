@@ -22,6 +22,18 @@
     \textbf{Correlation computation:} We use spearmanr to compute Correlation
 \end{frame}
 
+\begin{frame}{Supplementary data (Scraped from Amazon's website)}
+	
+	\vspace{-5pt}
+	\begin{figure}
+		\centering
+			\includegraphics[height=7.3cm]{pic/collected_amazon_data.png}
+		% \caption{Logo of the university.}
+		% \label{fig:unilogo}
+	\end{figure}
+
+\end{frame}
+
 \begin{frame}{Rating features}
 
 	\begin{figure}
@@ -38,3 +50,201 @@
     \end{enumerate}
 
 \end{frame}
+	
+\begin{frame}{Correlation with the number of sample images}
+
+	\begin{figure}
+		\centering
+			\includegraphics[height=5cm]{pic/corr_n_image.png}
+		% \caption{Logo of the university.}
+		% \label{fig:unilogo}
+	\end{figure}
+
+    \textbf{Conclusion:} The is a \underline{\textbf{positive correlation}} in product ratings and descriptions. The more images included in the description, the greater the likelihood of the product receiving positive reviews.
+
+\end{frame}
+
+\begin{frame}{Correlation with description length}
+
+	\begin{figure}
+		\centering
+			\includegraphics[height=5cm]{pic/corr_len_text.png}
+		% \caption{Logo of the university.}
+		% \label{fig:unilogo}
+	\end{figure}
+
+    \textbf{Conclusion:} There is \underline{\textbf{no significant correlation}} between product ratings and the length of product descriptions.
+
+\end{frame}
+
+
+\begin{frame}{Correlation with reading ease}
+
+	\begin{figure}[htbp]
+	\centering
+	\begin{minipage}[t]{0.70\textwidth}
+		\vspace{0pt}
+		\centering
+		\scriptsize
+		\begin{tabular}{llrrl}
+			\toprule
+			ease\_index & compare\_with & corr & p\_value & conclusion \\
+			\midrule
+				flesch\_reading\_ease & Score & 0.0163 & 0.3863 & No significant correlation \\
+				flesch\_reading\_ease & Polarization & -0.0187 & 0.3214 & No significant correlation \\
+				flesch\_kincaid\_grade & Score & 0.0123 & 0.5135 & No significant correlation \\
+				flesch\_kincaid\_grade & Polarization & -0.0130 & 0.4900 & No significant correlation \\
+				gunning\_fog & Score & 0.0066 & 0.7270 & No significant correlation \\
+				gunning\_fog & Polarization & -0.0076 & 0.6870 & No significant correlation \\
+			\bottomrule
+		\end{tabular}
+		\normalsize
+		\includegraphics[height=1.86cm]{pic/corr_reading_ease_dist.png}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.24\textwidth}
+		\vspace{0pt}
+		\centering
+		\scriptsize
+		\begin{itemize}
+			\item \textbf{flesch reading ease:} The higher the score, the easier it is to read.
+			\item \textbf{flesch kincaid grade:} The required grade level to read; The higher the number, the more difficult the reading level.
+			\item \textbf{gunning fog:} Long word ratio; The higher the ratio, the harder it is to understand.
+		\end{itemize}
+		\normalsize
+	\end{minipage}
+	\end{figure}
+
+	\textbf{Conclusion:} Product ratings show \underline{\textbf{no significant correlation}} with reading difficulty.
+
+\end{frame}
+
+
+\begin{frame}{Correlation with the marketing tone of the description}
+	\vspace{-16pt}
+	\begin{figure}[htbp]
+		\centering
+		\begin{minipage}[t]{0.50\textwidth}
+			\vspace{0pt}
+			\centering
+			\tiny
+			\begin{tabular}{llrrl}
+				\toprule
+				sentiment\_type & compare\_with & corr & p\_value & conclusion \\
+				\midrule
+				marketing\_tone\_score & Score & 0.0588 & 0.0007 & No significant correlation \\
+				marketing\_tone\_score & Polarization & -0.0469 & 0.0066 & No significant correlation \\
+				sentiment\_score & Score & 0.0788 & 0.0000 & No significant correlation \\
+				sentiment\_score & Polarization & -0.0568 & 0.0010 & No significant correlation \\
+				\bottomrule
+			\end{tabular}
+			\normalsize
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.36\textwidth}
+			\vspace{0pt}
+			\centering
+			\begin{figure}
+				\centering
+					\includegraphics[height=1.45cm]{pic/corr_sentiment_dist.png}
+			\end{figure}
+		\end{minipage}
+	\end{figure}
+
+	\textbf{Types of marketing tone (Measuring Criteria):}
+	\footnotesize
+	\begin{enumerate}
+		\item \textbf{marketing tone score:} The proportion of exaggerated marketing language in product descriptions. The higher the score, the more exaggerated the marketing claims become.
+		\item \textbf{sentiment score by language model}: model is distilbert-base-uncased-finetuned-sst-2-english, The higher the score, the more positive the emotion.
+	\end{enumerate}
+	\normalsize
+
+	\textbf{Conclusion:}
+	\footnotesize
+	\begin{itemize}
+		\item Product ratings \underline{\textbf{show no significant correlation}} with marketing tone/sentiment.
+		\item *However, since the metrics used to measure the emotional orientation of product descriptions do not follow a normal distribution, conclusions drawn from this basis may be unreliable.
+	\end{itemize}
+	\normalsize
+
+\end{frame}
+
+
+\begin{frame}{Correlation with product description items}
+	\vspace{-16pt}
+	\begin{figure}[htbp]
+		\centering
+		\begin{minipage}[t]{0.50\textwidth}
+			\vspace{8pt}
+			\centering
+			\tiny
+			\begin{tabular}{llrrl}
+				\toprule
+				item & compare\_with & corr & p\_value & conclusion \\
+				\midrule
+				Best Sellers Rank & Score & 0.3809 & 2.9e-116 & Highly correlated \\
+				Directions & Score & 0.2211 & 2.12e-38 & Correlated \\
+				Item model number & Score & 0.2721 & 4.95e-58 & Correlated \\
+				Package Dimensions & Score & -0.2473 & 6.66e-48 & Correlated \\
+				Package Dimensions & Polarization & 0.1717 & 1.32e-23 & Slightly correlated \\
+				Product Dimensions & Score & 0.2715 & 9.67e-58 & Correlated \\
+				Safety Information & Score & 0.1618 & 4.03e-21 & Slightly correlated \\
+				\bottomrule
+			\end{tabular}
+			\normalsize
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.40\textwidth}
+			\vspace{0pt}
+			\centering
+			\begin{figure}
+				\centering
+					\includegraphics[height=3cm]{pic/corr_desc_item_dist.png}
+			\end{figure}
+		\end{minipage}
+	\end{figure}
+
+	\footnotesize
+	\textbf{Products with the following description items might have a better rating:}
+	\scriptsize
+	\begin{itemize}
+		\item \textbf{Best Sellers Rank:} Only high-quality goods carry this label.
+		\item \textbf{Item model number \& Product Dimensions:} Products with model numbers may be more formal and reliable.
+		\item \textbf{Directions:} Products accompanied by directions may reduce negative reviews caused by users' inability to use or misuse the product.
+		\item \textbf{Safety Information:} Products with safety information may reduce negative reviews caused by user allergies.
+	\end{itemize}
+	\normalsize
+
+	\footnotesize
+	\textbf{Products with the following description items might have a lower rating:}
+	\scriptsize
+	\begin{itemize}
+		\item \textbf{Package Dimensions:} May receive negative reviews due to logistics-related issues.
+	\end{itemize}
+	\normalsize
+
+\end{frame}
+
+
+\begin{frame}{Chapter Conclusion}
+
+	\begin{block}{For Sellers}
+		\begin{itemize}
+			\item Increase the number of product images;
+			\item Make product descriptions as professional as possible;
+			\item Provide more detailed safety information and instructions;
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{For Buyers}
+		\begin{itemize}
+			\item Choose products with more pictures;
+			\item Choose products that appear more professional;
+			\item Carefully read the product descriptions to avoid potential issues;
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+
+
+
