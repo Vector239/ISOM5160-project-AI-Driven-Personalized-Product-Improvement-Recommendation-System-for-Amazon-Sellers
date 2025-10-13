@@ -1,22 +1,4 @@
-\section{Sentiment Analyze}
-
-\begin{frame}{Sentiment Analyze}
-    
-	\begin{block}{Why sentiment analyze?}
-		\begin{itemize}
-			\item The sentiment of some reviews is different from the actual review scores
-			\item Provides merchants with actionable insights for product improvement
-		\end{itemize}
-	\end{block}
-    
-	\begin{block}{Steps}
-		\begin{itemize}
-			\item Model: Pre-trained BERT
-			\item Download the pre-trained BERT model, download the data set for local training, and then score the original data for sentiment tendency
-		\end{itemize}
-	\end{block}
-
-\end{frame}
+\section{Sentiment Analysis}
 
 \begin{frame}{Sentiment-Rating Correlation \& Outlier Detection}
     
@@ -26,7 +8,7 @@
 			\item Adjusted sentiment scores to match 5-point rating scale
 			\item Computed Sentiment-Rating \textbf{Gap} = \textbf{Rating} - \textbf{Sentiment\_Score\_Scaled}
 			\item Detected outliers with |Z| > 2 : 483/10819 ($ \approx ≈ 4.5\%$)
-			\item \textbf{General Trend:} Ratings are \textbf{systematically higher} than sentiment scores. 
+			\item \textbf{General Trend:} Positively related; ratings are \textbf{systematically higher} than sentiment scores. 
 		\end{itemize}
 	\end{block}
     

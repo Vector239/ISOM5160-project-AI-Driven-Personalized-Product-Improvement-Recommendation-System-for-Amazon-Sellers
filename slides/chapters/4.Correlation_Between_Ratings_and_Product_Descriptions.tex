@@ -1,25 +1,34 @@
 \section{Correlation Between Ratings and Product Descriptions}
 
-\begin{frame}{Overview}
+\begin{frame}{Correlation Between Ratings and Product Descriptions - Overview}
 	% \frametitle<presentation>{Overview}
+
+	\footnotesize
+
+	\begin{block}{Steps}
+		\begin{enumerate}
+			\item Scrape supplementary data from amazon.com
+			\item Analyse correlation for both visual \& text information
+			\item \textbf{Correlation computation:} We use spearmanr to compute Correlation
+		\end{enumerate}
+	\end{block}
     
-	\begin{block}{1. Visual Information Correlation}
+	\begin{block}{Part1. Visual Information Correlation}
 		\begin{itemize}
 			\item Correlation with the number of sample images
 		\end{itemize}
 	\end{block}
     
-	\begin{block}{2. Text Information Correlation}
+	\begin{block}{Part2. Text Information Correlation}
 		\begin{itemize}
 			\item Correlation with description length
 			\item Correlation with reading ease
 			\item Correlation with the marketing tone of the description
             \item Correlation with product description items
-            \emph{beamerarticle}
+            % \emph{beamerarticle}
 		\end{itemize}
 	\end{block}
-
-    \textbf{Correlation computation:} We use spearmanr to compute Correlation
+    
 \end{frame}
 
 \begin{frame}{Supplementary data (Scraped from Amazon's website)}
@@ -226,25 +235,25 @@
 \end{frame}
 
 
-\begin{frame}{Chapter Conclusion}
+% \begin{frame}{Chapter Conclusion}
 
-	\begin{block}{For Sellers}
-		\begin{itemize}
-			\item Increase the number of product images;
-			\item Make product descriptions as professional as possible;
-			\item Provide more detailed safety information and instructions;
-		\end{itemize}
-	\end{block}
+% 	\begin{block}{For Sellers}
+% 		\begin{itemize}
+% 			\item Increase the number of product images;
+% 			\item Make product descriptions as professional as possible;
+% 			\item Provide more detailed safety information and instructions;
+% 		\end{itemize}
+% 	\end{block}
 
-	\begin{block}{For Buyers}
-		\begin{itemize}
-			\item Choose products with more pictures;
-			\item Choose products that appear more professional;
-			\item Carefully read the product descriptions to avoid potential issues;
-		\end{itemize}
-	\end{block}
+% 	\begin{block}{For Buyers}
+% 		\begin{itemize}
+% 			\item Choose products with more pictures;
+% 			\item Choose products that appear more professional;
+% 			\item Carefully read the product descriptions to avoid potential issues;
+% 		\end{itemize}
+% 	\end{block}
 
-\end{frame}
+% \end{frame}
 
 
 

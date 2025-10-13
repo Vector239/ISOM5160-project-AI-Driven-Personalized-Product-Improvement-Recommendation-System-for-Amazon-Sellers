@@ -109,21 +109,79 @@ subsubsectionstyle=show/shaded/hide]
 	\end{block}
 \end{frame}
 
+\begin{frame}{Sentiment Analysis}
+    
+	\begin{block}{Why sentiment analysis?}
+		\begin{itemize}
+			\item The sentiment of some reviews is different from the actual review scores
+			\item Provides merchants with actionable insights for product improvement
+		\end{itemize}
+	\end{block}
+    
+	\begin{block}{Steps}
+		\begin{itemize}
+			\item Model: Pre-trained BERT
+			\item Download the pre-trained BERT model, download the data set for local training, and then score the original data for sentiment tendency
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+
+\begin{frame}{Sentiment Analyze Result}
+	
+	\vspace{-5pt}
+	\begin{figure}
+		\centering
+			\includegraphics[height=6.5cm]{pic/dc.png}
+		% \caption{Logo of the university.}
+		% \label{fig:unilogo}
+	\end{figure}
+
+    \vspace{-5pt}
+    \begin{center}
+        \textbf{Added sentiment columns and keyword collections}
+    \end{center}
+    
+\end{frame}
+
 \include{chapters/Sentiment_Analyze}
-
-\include{chapters/Negative_Review_Analysis}
-
-\include{chapters/Review_Weighted_Analysis}
-
-% 4. Correlation Between Ratings and Product Descriptions --- ---
-
-\include{chapters/4.Correlation_Between_Ratings_and_Product_Descriptions}
 
 \include{chapters/Comment_Time_Series_Analysis}
 
+\include{chapters/Negative_Review_Analysis}
+
+\include{chapters/4.Correlation_Between_Ratings_and_Product_Descriptions}
+
+\include{chapters/Review_Weighted_Analysis}
+
+
 
 % Results --- --- --- --- --- --- --- --- --- --- --- 
-\section{Q \& A}
+\section{Overall Takeaways}
+
+
+\begin{frame}{Overall Takeaways}
+    \footnotesize
+
+    \begin{block}{Overall Takeaways for Merchants}
+		\begin{itemize}
+			\item \textbf{Listen Beyond the Stars} - Text sentiment often reveals issues hidden behind high scores.
+            \item \textbf{Focus on Quality Signals} - Address taste, packaging, and logistics to curb negative reviews.
+            \item \textbf{Professional Product Overview} - Include detailed, credible product information and visuals.
+            \item \textbf{Leverage Weighted Analytics} - Use smoothed scores for fairer product comparisons.
+            \item \textbf{Continuously Monitor Feedback Trends} - Use time-series tracking to align improvement with customer behavior.
+		\end{itemize}
+	\end{block}
+    
+	\begin{block}{Technical Contributions}
+		\begin{itemize}
+            \item \textbf{End-to-end review analysis pipeline} combining data cleaning, sentiment modeling, and statistical validation.
+            \item \textbf{Hybrid NLP-statistical approach} ensuring both semantic accuracy and analytical robustness.
+            \item \textbf{Practical insight generation} helping sellers understand reviews and improve their products.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
 \begin{frame}
     \huge
     \begin{center}
