@@ -158,7 +158,7 @@ def scrape_main():
     args = parser.parse_args()
 
     try:
-        amazon_food_reviews = pd.read_csv('amazon_food_reviews.csv')
+        amazon_food_reviews = pd.read_csv('datasets/amazon_food_reviews.csv')
         product_id_list = list(amazon_food_reviews.ProductId.unique())
     except Exception:
         print('Error loading "amazon_food_reviews.csv", please put it in the same folder as this script.')
