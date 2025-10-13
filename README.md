@@ -45,6 +45,24 @@ We use ***BOTH*** datasets provided in course requirements and supplementary dat
 |-------------------------|------------|-----------------|
 | amazon_food_reviews.csv | 10,828     | 10              |
 
+```aiignore
+RangeIndex: 29965 entries, 0 to 29964
+Data columns (total 10 columns):
+ #   Column                  Non-Null Count  Dtype         
+---  ------                  --------------  -----         
+ 0   Id                      10277 non-null  float64       
+ 1   ProductId               29965 non-null  object        
+ 2   UserId                  10277 non-null  object        
+ 3   ProfileName             10277 non-null  object        
+ 4   HelpfulnessNumerator    29965 non-null  int64         
+ 5   HelpfulnessDenominator  10277 non-null  float64       
+ 6   Score                   29965 non-null  int64         
+ 7   Time                    29965 non-null  datetime64[ns]
+ 8   Summary                 29964 non-null  object        
+ 9   Text                    29965 non-null  object        
+dtypes: datetime64[ns](1), float64(2), int64(2), object(5)
+memory usage: 2.3+ MB
+```
 
 2. `new_data.zip`: Additional data scrapped from `amazon.com` 
 
@@ -54,7 +72,7 @@ We use ***BOTH*** datasets provided in course requirements and supplementary dat
 
 - Why 3380 rows? We only scrapped info of products in `amazon_food_reviews.csv`
 
-```
+```aiignore
 RangeIndex: 3381 entries, 0 to 3380
 Data columns (total 29 columns):
  #   Column                  Non-Null Count  Dtype  
