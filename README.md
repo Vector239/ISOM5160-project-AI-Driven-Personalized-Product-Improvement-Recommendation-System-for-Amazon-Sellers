@@ -17,7 +17,7 @@ This is a course project for HKUST ISOM5160. It leverages Python to analyze over
 | LI, Heyi      | 21265689 | Anomaly Analysis of Comments and Ratings (Based on Sentiment Analysis of Comments), PPT Coordination                                                                          |
 | LIAO, Jingyu  | 21262106 | Analysis of Negative Review Reasons (Based on Review Keywords)                                                                                          |
 | LIN, Chuwei   | 21237955 | Time Trend Analysis of Rating                                                                                                          |
-| YE, Chenwei   | 21199517 | User Comment Weight Analysis                                                                                                         |
+| YE, Chenwei   | 21199517 | User Comment Weight Analysis (simple weighted & Bayesian smooth)                                                                                                        |
 | ZHANG, Ziyang | 21266920 | 1. Data scraping: additional amazon product info <br/>2. Analyse: Correlation Between Ratings and Product Descriptions |
 
 ## Timeline
