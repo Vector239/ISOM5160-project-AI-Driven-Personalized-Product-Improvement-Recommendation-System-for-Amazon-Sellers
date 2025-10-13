@@ -24,8 +24,8 @@ This is a course project for HKUST ISOM5160. It leverages Python to analyze over
 
 1. [9.21] Preprocessed data and supplementary data:
    - [x] Additional amazon product info
-   - [ ] 评论文本处理 + 情感分析
-   - [ ] 简介文本处理
+   - [x] 评论文本处理 + 情感分析
+   - [x] 简介文本处理
 
 2. [10.3] Data Analysis and Conclusion Output: 
    1. 差评原因分析
