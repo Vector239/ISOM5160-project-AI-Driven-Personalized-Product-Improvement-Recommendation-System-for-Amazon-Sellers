@@ -39,4 +39,4 @@ This is a course project for HKUST ISOM5160. It leverages Python to analyze over
 
 ## Documentation
 
-
+Execute `ISOM5160-GROUP7.ipynb` in sequence.
