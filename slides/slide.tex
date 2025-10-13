@@ -73,91 +73,89 @@ subsectionstyle=show/shaded/hide,
 subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
-% Introduction --- --- --- --- --- --- --- --- --- --- --- --- 
+% Background & objective --- --- --- --- --- --- --- --- --- --- --- --- 
 
-\section{Introduction}
-\begin{frame}{Background and Motivation}
-	\frametitle<presentation>{Background and Motivation}
-	\begin{block}{Why to give a presentation:}
+\section{Background \& Objective}
+\begin{frame}{Background \& Objective}
+	\begin{block}{Project background}
 		\begin{itemize}
-			\item show the main arguments and results of your work
-			\item produce interest to read the full paper/report
-			\item goal: be educational and also entertaining
+			\item Amazon product reviews contain a large amount of redundant and noisy information.
+			\item It`s hard for merchant to get valuable insights and learn how to improve their product
 		\end{itemize}
 	\end{block}
-	\begin{block}{Advantages of using \LaTeX ~with the beamer package:}
+	\begin{block}{Objective}
 		\begin{itemize}
-			\item very easy if the report is already written in \LaTeX
-			\item different themes which are usable in practice
-			\item possibility to create handouts using \emph{beamerarticle}
+			\item Organize Amazon reviews and extract key informations (include sentiment, timeline information and goods key features extract)  so merchants know how to improve their products
 		\end{itemize}
 	\end{block}
 \end{frame}
 
-\begin{frame}{Research question}
+\section{Data Cleaning}
 
-   this is a Research question.
-
+\begin{frame}{Data Cleaning}
+	\begin{block}{Dirty data}
+		\begin{itemize}
+			\item Missing values in key fields (e.g., Text, Score, ProductId)
+			\item Duplicate reviews （from same user /multiple Good reviews same product）
+			\item Noisy , inconsistent text ,stop words will redundant the later works
+		\end{itemize}
+	\end{block}
+    
+	\begin{block}{Steps}
+		\begin{itemize}
+			\item Duplicate and blank value processing: Make product reviews unique and valid
+			\item Unify text format and remove stop words: to facilitate subsequent sentiment analysis and keyword extraction
+		\end{itemize}
+	\end{block}
 \end{frame}
 
-% Literature Review --- --- --- --- --- --- --- --- --- --- --- 
-\section{Literature Review}
-\begin{frame}{Research gap}
+\include{chapters/Sentiment_Analyze}
 
-   this is a Literature gap.
+\include{chapters/Negative_Review_Analysis}
 
-\end{frame}
-
-\begin{frame}{Research question}
-
-   this is a Literature Review.
-
-\end{frame}
+\include{chapters/Review_Weighted_Analysis}
 
 % 4. Correlation Between Ratings and Product Descriptions --- ---
 
 \include{chapters/4.Correlation_Between_Ratings_and_Product_Descriptions}
 
-
-% Methods --- --- --- --- --- --- --- --- --- --- --- 
-% \section{Methods}
-% \begin{frame}{Title}
-%     \begin{itemize}
-%         \item different themes which are usable in practice
-%     \end{itemize}
-% \end{frame}
-
-% \begin{frame}
-% 	\frametitle<presentation>{Figures}
-% 	\begin{figure}
-% 		\centering
-% 			\includegraphics[height=5cm]{pic/UST.png}
-% 		\caption{Logo of the university.}
-% 		\label{fig:unilogo}
-% 	\end{figure}
-% \end{frame}
+\include{chapters/Comment_Time_Series_Analysis}
 
 
 % Results --- --- --- --- --- --- --- --- --- --- --- 
-\section{Results}
+\section{Q \& A}
 \begin{frame}
-    \begin{itemize}
-        \item different themes
-        \item different themes
-        \item different themes
-        \item different themes
-    \end{itemize}
+    \huge
+    \begin{center}
+        \textbf{Q \& A}
+    \end{center}
 \end{frame}
 
 
 % --- Thank you slide ---
 \begin{frame}
+
 \begin{center}
-{ Thank you for listening !}
+{ 
+    \huge
+    Thank you for listening !
+    \normalsize
+}
 \vspace{1cm}
 
-Group 7 \\[1em]
-@connect.hkust-gz.edu.cn 
+Group 7 \\[3em]
+
+\scriptsize
+\begin{tabular}{llll}
+    \toprule
+    % Name & SID & Name & SID  \\
+    % \midrule
+    CAO, Xi & 21271664 & LI, Heyi & 21265689  \\
+    LIAO, Jingyu & 21262106 & LIN, Chuwei & 21237955  \\
+    YE, Chenwei & 21199517 & ZHANG, Ziyang & 21266920  \\
+    \bottomrule
+\end{tabular}
+\normalsize
 \end{center}
 \end{frame}
 

@@ -1,0 +1,78 @@
+\section{Review Weighted Analysis}
+
+\begin{frame}{Review Weighted Analysis}
+
+	Remove outliers where HelpfulnessNumerator > HelpfulnessDenominator
+
+	\vspace{-15pt}
+	\begin{figure}[htbp]
+		\centering
+		\begin{minipage}[t]{0.50\textwidth}
+			\vspace{0pt}
+			\centering
+			\[
+			r = \frac{\text{HelpfulnessNumerator} + a}
+					{\text{HelpfulnessDenominator} + a + b}
+			\]
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.49\textwidth}
+			\vspace{0pt}
+			\centering
+			\[
+			t = 1 + \log(1 + \text{HelpfulnessDenominator})
+			\]
+		\end{minipage}
+	\end{figure}
+
+	\vspace{10pt}
+	\textbf{Comment Weight:}
+
+	\[
+	\text{weighted\_mean} =
+	\frac{\sum (\text{Score} \times \text{weight})}
+		{\sum \text{weight}}
+	\]
+
+	
+	\vspace{10pt}
+    \textbf{Example:} If there are 10 five-star ratings with no votes and 1 one-star rating with 50 people finding it useful → the weighted mean will lean closer to one star.
+
+\end{frame}
+
+
+
+\begin{frame}{Review Weighted Analysis}
+
+	\textbf{Bayesian Mean:}
+	\[
+	WeightedScore = \frac{v}{v + m} \cdot R + \frac{m}{v + m} \cdot C
+	\]
+
+	\vspace{10pt}
+
+	\textbf{Optimized:}
+	\[
+	\frac{m \times \text{global\_mean} + \text{weighted\_mean} \times \sum \text{weight}}
+		{m + \sum \text{weight}}
+	\]
+
+	\vspace{10pt}
+
+    \textbf{Conclusion:} Based on the weighted mean, it converges toward the global average to avoid small-sample extremes. The fewer the reviews, the closer the Bayesian mean approaches the global average; Products with many reviews → the Bayesian mean approaches its own weighted mean.
+
+\end{frame}
+
+
+
+\begin{frame}{Review Weighted Analysis}
+
+	\vspace{-15pt}
+	\begin{figure}
+		\centering
+			\includegraphics[height=4cm]{pic/weight_1.png}
+	\end{figure}
+
+    \textbf{Conclusion:} The raw mean is highly susceptible to bias when the sample size is small, easily skewed by a single extreme review. Weighted Smooth reduces the impact of noisy reviews. Bayesian Smooth applies “confidence contraction” to products with small sample sizes—bringing ratings closer to the global mean to prevent misrepresentation.
+
+\end{frame}
